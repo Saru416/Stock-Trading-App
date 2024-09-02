@@ -1,7 +1,8 @@
-import React from 'react'
+import React, {useState} from 'react'
 import './Register.css'
 import '../../App.css'
 import {Link} from 'react-router-dom'
+import axios from 'axios'
 
 import video from '../../LoginAssets/video.mp4'
 import image from '../../LoginAssets/photo.png'
@@ -12,6 +13,30 @@ import {BsFillShieldLockFill} from 'react-icons/bs'
 import {AiOutlineSwapRight} from 'react-icons/ai'
 
 const Register = () => {
+    const [formData, setFormData] = useState({
+        name: '',
+        email: '',
+        password: ''
+    });
+
+    const {name, email, password } = formData;
+
+    const onChange = (e) => {
+        setFormData({ ...formData, [e.target.name]: e.target.value});
+    }
+
+    const onSubmit = async (e) => {
+        e.preventDefault();
+        try{
+            const response  = await axios.post('http://localhost:3000/api/users/addUser', formData);
+            console.log(response.data);
+        }
+        catch(error){
+            console.log(error.response.data);
+        }
+    }
+
+
   return (
     <div className='registerPage flex'>
         <div className='container flex'>
@@ -36,12 +61,12 @@ const Register = () => {
                     <h3>Let us know you!</h3>
                 </div>
 
-                <form action="" className='form grid'>
+                <form onSubmit={onSubmit} action="" className='form grid'>
                     <div className='inputDiv'>
                         <label htmlFor='email'>Email</label>
                         <div className='input flex'>
                             <MdMarkEmailRead className="icon"/>
-                            <input type="email" id="email" placeholder='Enter Email'></input>
+                            <input name="email" value={email} type="email" id="email" placeholder='Enter Email' onChange={onChange} required></input>
                         </div>
                     </div>
 
@@ -49,7 +74,7 @@ const Register = () => {
                         <label htmlFor='username'>Username</label>
                         <div className='input flex'>
                             <FaUserShield className="icon"/>
-                            <input type="username" id="username" placeholder='Enter Username'></input>
+                            <input name="name" value={name} type="username" id="username" placeholder='Enter Username' onChange={onChange} required></input>
                         </div>
                     </div>
 
@@ -57,7 +82,7 @@ const Register = () => {
                         <label htmlFor='password'>Password</label>
                         <div className='input flex'>
                             <BsFillShieldLockFill className="icon"/>
-                            <input type="password" id="password" placeholder='Enter Password'></input>
+                            <input name="password" value={password} type="password" id="password" placeholder='Enter Password' onChange={onChange} required></input>
                         </div>
                     </div>
 
