@@ -107,6 +107,9 @@ img, video {
   margin: auto;
   border-radius: 10px;
   overflow: hidden;
+  background-image: url(./LoginAssets/background.png);
+  background-repeat: no-repeat;
+  background-size: 2000px;
   box-shadow: 0 7px 50px rgb(214, 223, 213);
 }
 .loginPage .container, .registerPage .container {

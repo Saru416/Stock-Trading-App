@@ -1,8 +1,10 @@
 import React, {useState} from 'react'
+import {useDispatch, useSelector} from 'react-redux';
+import { registerUser } from '../../redux/thunks/userThunk';
+
 import './Register.css'
 import '../../App.css'
 import {Link} from 'react-router-dom'
-import axios from 'axios'
 
 import video from '../../LoginAssets/video.mp4'
 import image from '../../LoginAssets/photo.png'
@@ -21,21 +23,17 @@ const Register = () => {
 
     const {name, email, password } = formData;
 
+    const dispatch = useDispatch();
+    const {loading, error, user} = useSelector((state) => state.user);
+
     const onChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value});
     }
 
     const onSubmit = async (e) => {
         e.preventDefault();
-        try{
-            const response  = await axios.post('http://localhost:3000/api/users/addUser', formData);
-            console.log(response.data);
-        }
-        catch(error){
-            console.log(error.response.data);
-        }
-    }
-
+        dispatch(registerUser(formData));
+    };
 
   return (
     <div className='registerPage flex'>
@@ -43,8 +41,8 @@ const Register = () => {
             <div className='videoDiv'>
                 <video src={video} autoPlay muted loop></video>
                 <div className='textDiv'>
-                    <h2 className='title'>Create And sell Extraordinary Products</h2>
-                    <p>Adopt the peace of nature!</p>
+                    <h2 className='title'>Buy And sell Stocks here!</h2>
+                    <p>Adopt the world of stock!</p>
                 </div>
 
                 <div className='footerDiv flex'>
@@ -61,7 +59,7 @@ const Register = () => {
                     <h3>Let us know you!</h3>
                 </div>
 
-                <form onSubmit={onSubmit} action="" className='form grid'>
+                <form onSubmit={onSubmit} className='form grid'>
                     <div className='inputDiv'>
                         <label htmlFor='email'>Email</label>
                         <div className='input flex'>
@@ -87,9 +85,12 @@ const Register = () => {
                     </div>
 
                     <button type="submit" className='btn flex'>
-                        <span>Register</span>
+                        <span>{loading ? 'Registering...' : 'Register'}</span>
                         <AiOutlineSwapRight className="icon"/>
                     </button>
+
+                    {error && <div className="error">{error}</div>}
+                    {user && <div className="success">Registration successful!</div>}
 
                     <span className='forgetPassword'>
                         Forget your password? <a href="">Click Here</a>
@@ -101,4 +102,4 @@ const Register = () => {
   )
 }
 
-export default Register
+export default Register;

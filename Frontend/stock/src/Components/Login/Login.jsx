@@ -17,8 +17,8 @@ const Login = () => {
             <div className='videoDiv'>
                 <video src={video} autoPlay muted loop></video>
                 <div className='textDiv'>
-                    <h2 className='title'>Create And sell Extraordinary Products</h2>
-                    <p>Adopt the peace of nature!</p>
+                    <h2 className='title'>Buy And sell Stocks here!</h2>
+                    <p>Adopt the world of stock!</p>
                 </div>
 
                 <div className='footerDiv flex'>
